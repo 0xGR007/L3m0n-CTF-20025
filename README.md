@@ -1,2 +1,2 @@
-# L3m0n-CTF-20025
+# L3m0n-CTF-2025
 Writeups
