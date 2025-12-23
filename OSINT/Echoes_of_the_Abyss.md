@@ -1,26 +1,24 @@
----
-
 # 🕯️ Echoes of the Abyss — OSINT Write-Up
 
 **Challenge Name:** Echoes of the Abyss
 **Category:** OSINT
 **Points:** 750
 
-> *“A nameless knight, long forgotten by the flame, has scattered fragments of their soul across the digital abyss.
-
-They say the last Cinder still burns somewhere... waiting for an Unkindled to piece together what remains.
-
-To link the fire, one must first seek the fallen knight.”*
+> *“A nameless knight, long forgotten by the flame, has scattered fragments of their soul across the digital abyss.*
+>
+> *They say the last Cinder still burns somewhere… waiting for an Unkindled to piece together what remains.*
+>
+> *To link the fire, one must first seek the fallen knight.”*
 
 ---
 
 ## 🧠 Challenge Overview
 
-The challenge revolves around a **Dark Souls–themed OSINT trail**.
-A forgotten knight has scattered digital traces across multiple platforms.
-Each clue leads to another service, requiring **metadata analysis, decoding, social media investigation, repository history analysis, and geolocation OSINT**.
+This challenge presents a **Dark Souls–themed OSINT trail**. A forgotten knight has scattered digital traces across multiple platforms, each clue carefully designed to lead into the next.
 
-The final objective was to **piece together all clues and locate the final flag**.
+Solving the challenge required a mix of **metadata analysis, decoding, social media investigation, repository history analysis, and geolocation OSINT**.
+
+The final objective was to **correlate all clues and recover the final flag**.
 
 ---
 
@@ -30,27 +28,26 @@ The final objective was to **piece together all clues and locate the final flag*
 
 ## 1️⃣ Image Analysis (bonfire.jpg)
 
-The challenge provides an image named **bonfire.jpg**.
-Given the OSINT context, the first logical step was to inspect the **image metadata**.
+The investigation began with the provided image **bonfire.jpg**. Given the OSINT category, the first logical step was to inspect the **image metadata**.
 
-### Tool Used:
+### Tool Used
 
 * `exif.tools`
 
-### Key Finding (EXIF Metadata):
+### Key EXIF Metadata
 
 > *“In the final primes of 100, there lies the last flame that turns the log to ash.
 > Its echo lingers where the blue bird once sang.”*
 
-### Interpretation:
+### Interpretation
 
 * **Final prime below 100** → `97`
 * **Blue bird** → Twitter (now X)
-* **Last flame / cinder** → likely a username
+* **Last flame / cinder** → Likely a username
 
-### Conclusion:
+### Conclusion
 
-The metadata strongly suggests a Twitter/X username:
+The metadata strongly suggests the Twitter/X username:
 
 ```
 LastCinder97
@@ -60,15 +57,15 @@ LastCinder97
 
 ## 2️⃣ Twitter / X Investigation
 
-### Profile Found:
+### Profile Found
 
 🔗 [https://x.com/LastCinder97](https://x.com/LastCinder97)
 
-The account contained **8 posts**, out of which **4 were relevant**.
+The account contained **8 posts**, of which **4 were relevant**.
 
-### Important Tweets:
+### Key Tweets
 
-1. A post mentioning a **YouTuber friend**
+1. A post referencing a **YouTuber friend**
 2. A short code:
 
    ```
@@ -85,63 +82,62 @@ The account contained **8 posts**, out of which **4 were relevant**.
    Pickle pee, Pump-a-rum
    ```
 
-### Clue Summary:
+### Clue Summary
 
-* YouTube reference
+* Reference to YouTube
 * Encoded values
-* Pastebin-style code
-* Dark Souls reference text
+* Possible Pastebin-style code
+* Dark Souls flavor text
 
 ---
 
 ## 3️⃣ Hex Decoding
 
-### Tool Used:
+### Tool Used
 
 * CyberChef
 
-### Input:
+### Input
 
 ```
 55 43 7a 2d 6b 52 57 67 75 61 78 7a 49 71 74 62 45 31 79 49 39 5a 62 41
 ```
 
-### Output:
+### Output
 
 ```
 UCz-kRWguaxzIqtbE1yI9ZbA
 ```
 
-### Interpretation:
+### Interpretation
 
-This format matches a **YouTube Channel ID**.
+The decoded value matches the format of a **YouTube Channel ID**.
 
 ---
 
 ## 4️⃣ YouTube Channel Investigation
 
-### Channel URL:
+### Channel URL
 
 🔗 [https://www.youtube.com/channel/UCz-kRWguaxzIqtbE1yI9ZbA](https://www.youtube.com/channel/UCz-kRWguaxzIqtbE1yI9ZbA)
 
-### Channel Name:
+### Channel Name
 
 **The Ashen One**
 
-The channel had **no obvious videos**, but the **channel banner contained a link** to an **unlisted video**.
+The channel appeared mostly empty; however, the **channel banner contained a link** leading to an **unlisted video**.
 
 ---
 
 ## 5️⃣ Unlisted Video Analysis
 
-The unlisted video itself contained **no visual clues**.
-However, checking **advanced details** revealed a clue.
+The unlisted video itself did not contain visible clues. However, examining additional metadata revealed a hidden hint.
 
-### Location of Clue:
+### Clue Location
 
 * **Video transcript**
 
-### Encoded Text Found:
+### Encoded Text
 
 ```
 OUXUC43IMVXE63TF
@@ -149,65 +145,66 @@ OUXUC43IMVXE63TF
 
 ---
 
-## 6️⃣ Decoding the Transcript
+## 6️⃣ Transcript Decoding
 
-### Tool Used:
+### Tool Used
 
 * CyberChef (Magic / Base decoding)
 
-### Decoded Output:
+### Decoded Output
 
 ```
 u/AshenOne
 ```
 
-### Interpretation:
+### Interpretation
 
-This is a **Reddit username**.
+This value corresponds to a **Reddit username**.
 
 ---
 
 ## 7️⃣ Reddit OSINT
 
-### Profile Found:
+### Profile Identified
 
 * `u/AshenOne67`
 
-On reviewing the profile, the key discovery was found under:
+While reviewing the profile, a key detail appeared under:
 
 * **Moderator of these communities**
 
-### Relevant Subreddit:
+### Relevant Subreddit
 
 ```
 r/FireIinkShrine
 ```
 
-This subreddit contained references pointing toward **GitHub**.
+This subreddit provided the next pivot point toward **GitHub**.
 
 ---
 
 ## 8️⃣ GitHub Investigation
 
-### Referenced Repository:
+### Referenced Repository
 
 ```
 https://github.com/AshenOne67/SoulsTracker
 ```
 
-The repository was **private / removed (404)**.
+The repository returned a **404 error**, indicating it was private or removed.
 
-### OSINT Technique Used:
+### OSINT Techniques Applied
 
-* Checking **related users**
-* Examining **stars & forks**
+* Identifying related users
+* Inspecting stars and forks
 
-### Breakthrough:
+### Breakthrough
 
-A related user was found:
+A related account was discovered:
+
 🔗 [https://github.com/shah2006suhail](https://github.com/shah2006suhail)
 
-This account contained a **public repository** named:
+This user hosted a **public repository** named:
 
 ```
 SoulsTracker
@@ -219,19 +216,19 @@ SoulsTracker
 
 The repository contained **9 commits**.
 
-### Important Commits:
+### Notable Commits
 
 * `Initial README + hints`
 * `Add secret (contains pastebin link)`
 
-The latter commit mentioned:
+The second commit included the note:
 
 > *“This file contains the pastebin link for the next step of the challenge.
 > It will be removed from the tip of the branch — check previous commits to retrieve it.”*
 
-### Key Discovery:
+### Key Discovery
 
-A **tag name** containing the Pastebin ID:
+A tag containing the Pastebin identifier:
 
 ```
 Jeja3z8T
@@ -241,17 +238,17 @@ Jeja3z8T
 
 ## 🔟 Pastebin Clue
 
-### URL:
+### URL
 
 🔗 [https://pastebin.com/Jeja3z8T](https://pastebin.com/Jeja3z8T)
 
-### Paste Content:
+### Paste Content
 
 > *“Ashen One, you're just one step away from rekindling the flame.
 > Seek the place that Lord Gwyn ruled over, the city of the mighty,
 > which housed the children of Gwyn, the capital city of the once glorious kingdom, now in ruins.”*
 
-### Interpretation:
+### Interpretation
 
 This description clearly refers to:
 
@@ -265,13 +262,11 @@ Anor Londo
 
 ## 1️⃣1️⃣ Geolocation OSINT (Google Maps)
 
-Searching **“Anor Londo”** on Google Maps produced multiple results.
+Searching **“Anor Londo”** on Google Maps returned multiple results. Each was reviewed carefully.
 
-Each location was inspected carefully.
+### Final Discovery
 
-### Final Discovery:
-
-On the **correct map listing**, a **Google review** posted by:
+On the correct listing, a **Google review** posted by:
 
 ```
 Praneesh R V
@@ -306,28 +301,29 @@ L3m0nCTF{Link_the_fire_or_walk_the_path_of_dark}
 
 ## ⏱️ Effort & Scope
 
-* **Total platforms investigated:** 8
+* **Platforms investigated:** 8
 * **Commits analyzed:** 9
 * **Encodings decoded:** Multiple (hex, base, magic)
-* **OSINT techniques used:** Metadata analysis, username pivoting, commit forensics, transcript extraction, geolocation OSINT
+* **OSINT techniques used:** Metadata analysis, username pivoting, transcript extraction, commit forensics, geolocation OSINT
 * **Estimated time investment:** Several hours of careful investigation and correlation
 
 ---
 
-##📝 Final Notes
+## 📝 Final Notes
 
-You followed the author’s breadcrumb trail perfectly — from EXIF poem → prime number → blue bird → X → hex → YouTube → transcript → Reddit → GitHub → Pastebin → Anor Londo → Google Review.
-That’s the OSINT holy trinity of “look everywhere, decode everything, and don’t trust obvious Rickrolls.”
+You followed the author’s breadcrumb trail perfectly — from **EXIF poem → prime number → blue bird → X → hex → YouTube → transcript → Reddit → GitHub → Pastebin → Anor Londo → Google Review**.
 
-Also — Rick Astley is an emotional landmine.
-You handled it like a pro. 🕵️‍♂️🔥
+That’s the OSINT holy trinity of **“look everywhere, decode everything, and don’t trust obvious Rickrolls.”**
+
+Also — **Rick Astley is an emotional landmine**. You handled it like a pro. 🕵️‍♂️🔥
+
+---
 
 ## 📝 Conclusion
 
-This challenge was a **well-designed OSINT puzzle** that rewarded persistence and attention to detail.
-Each clue logically chained into the next, requiring **cross-platform thinking** rather than brute force.
+This was a **well-designed OSINT challenge** that rewarded persistence, careful correlation, and cross-platform thinking rather than brute force.
 
-From a single image to a hidden Google Maps review — the journey truly reflected the theme:
+From a single image to a hidden Google Maps review, the journey perfectly embodied the theme:
 
 > *Link the fire… or walk the path of dark.*
 
